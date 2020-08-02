@@ -1,0 +1,9 @@
+﻿<select id="{{elementoId}}"
+        class="form-control"
+        ng-options="opcion.id as opcion.name for opcion in opciones track by opcion.id"
+        ng-model="opcionSeleccionada"
+        ng-disabled="deshabilitado"
+        ui-jq="selectpicker"
+        data-live-search="{{mostrarBuscador}}">
+    <option value="">{{textoNoSeleccion}}</option>
+</select>

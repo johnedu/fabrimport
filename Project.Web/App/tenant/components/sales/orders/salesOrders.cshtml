@@ -1,0 +1,316 @@
+﻿<div class="row" busy-if="$ctrl.render.loadingData">
+    <div class="col-md-12">
+        <div class="portlet light bordered" ng-show="$ctrl.render.showOrders">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">@L("SalesOrders")</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-sm btn-circle blue" ng-click="$ctrl.newOrder()">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-6 margin-bottom-20">
+                        <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                            @L("SalesOrdersCustomer")
+                        </div>
+                        <select-picker opciones="$ctrl.options.allCustomers"
+                                       opcion-seleccionada="$ctrl.order.filters.customerId"
+                                       texto-no-seleccion="@L("SalesOrdersSelectCustomer")">
+                        </select-picker>
+                    </div>
+                    <div class="col-md-6 margin-bottom-20">
+                        <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                            @L("SalesOrdersEmploy")
+                        </div>
+                        <select-picker opciones="$ctrl.options.allEmployees"
+                                       opcion-seleccionada="$ctrl.order.filters.employeeId"
+                                       texto-no-seleccion="@L("SalesOrdersSelectEmploy")">
+                        </select-picker>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 margin-bottom-20">
+                        <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                            @L("SalesOrdersState")
+                        </div>
+                        <select-picker opciones="$ctrl.options.states"
+                                       opcion-seleccionada="$ctrl.order.filters.stateId"
+                                       texto-no-seleccion="@L("SalesOrdersSelectState")">
+                        </select-picker>
+                    </div>
+                    <div class="col-md-6 margin-bottom-20">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint" style="padding-top: 0px;">
+                                    <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                                        @L("SalesOrdersStartDate")
+                                    </div>
+                                    <input-date-picker id="iptStartDateFilter"
+                                                       ng-model="$ctrl.order.filters.startDate"
+                                                       date-options="$ctrl.order.startDateOptions"
+                                                       valid-date="$ctrl.order.filters.validStartDate">
+                                    </input-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint" style="padding-top: 0px;">
+                                    <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                                        @L("SalesOrdersEndDate")
+                                    </div>
+                                    <input-date-picker id="iptEndDateFilter"
+                                                       ng-model="$ctrl.order.filters.endDate"
+                                                       date-options="$ctrl.order.endDateOptions"
+                                                       valid-date="$ctrl.order.filters.validEndDate">
+                                    </input-date-picker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-md-12 text-center">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        @L("SalesOrdersNumber")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersEmploy")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersCustomer")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersDate")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersSaleValue")
+                                    </th>
+                                    <th class="text-center">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="order in $ctrl.orders">
+                                    <td>
+                                        {{ order.number }}
+                                    </td>
+                                    <td>
+                                        {{ order.employeeName }}
+                                    </td>
+                                    <td>
+                                        {{ order.customerName }}
+                                    </td>
+                                    <td>
+                                        {{ order.date }}
+                                    </td>
+                                    <td>
+                                        {{ order.totalValue }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="" ng-click="$ctrl.deleteOrderProduct(orderProduct.position)" class="btn btn-circle btn-icon-only btn-default red" uib-tooltip="@L("SalesOrdersDeleteProduct")">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet light bordered" ng-show="!$ctrl.render.showOrders">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">@L("SalesOrdersNew")</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-6 margin-bottom-20">
+                        <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                            @L("SalesOrdersCustomer")
+                        </div>
+                        <select-picker opciones="$ctrl.options.customers"
+                                       opcion-seleccionada="$ctrl.order.customerId"
+                                       texto-no-seleccion="@L("SalesOrdersSelectCustomer")"
+                                       selecciono-opcion="$ctrl.customerSelected(option)">
+                        </select-picker>
+                        <div class="row margin-top-10" ng-show="$ctrl.order.customerId">
+                            <div class="col-md-3">
+                                <div class="mt-card-avatar mt-overlay-1 text-center">
+                                    <img class="img-thumbnail text-center" src="~/Common/Images/default-profile-picture.png" />
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <ul class="nav">
+                                    <li>
+                                        <span class="bold">
+                                            {{$ctrl.order.customer.fullName}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-credit-card"></i>
+                                        {{ $ctrl.order.customer.documentTypeName }}  {{ $ctrl.order.customer.documentNumber }}
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-birthday-cake"></i>
+                                        <span>
+                                            {{ $ctrl.order.customer.birthdayDate | date:'dd/MM/yyyy' }}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-home"></i>
+                                        {{ $ctrl.order.customer.mainAddress.name }}<br />
+
+                                    </li>
+                                    <li ng-repeat="phone in $ctrl.order.customer.phones">
+                                        <i class="fa fa-phone"></i>
+                                        {{ phone.phone.number }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row margin-bottom-20">
+                            <div class="col-md-12">
+                                <div class="caption-subject font-blue-dark bold margin-bottom-10">
+                                    @L("SalesOrdersEmploy")
+                                </div>
+                                <select-picker opciones="$ctrl.options.employees"
+                                               opcion-seleccionada="$ctrl.order.employeeId"
+                                               texto-no-seleccion="@L("SalesOrdersSelectEmploy")">
+                                </select-picker>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint" style="padding-top: 0px;">
+                                    <div class="caption-subject font-blue-dark bold">
+                                        @L("SalesOrdersDate")
+                                    </div>
+                                    <input-date-picker id="iptOrderDate"
+                                                       ng-model="$ctrl.order.date"
+                                                       date-options="$ctrl.order.dateOptions"
+                                                       valid-date="$ctrl.order.validDate">
+                                    </input-date-picker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <span class="form-control text-center bold" style="font-size: large;"> {{ $ctrl.getOrderTotalValue() | currency:'$' }} </span>
+                                    <label>@L("SalesOrdersTotalSaleValue")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet light bordered" busy-if="$ctrl.render.loadingData">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-green bold uppercase">@L("GeneralProducts")</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        @L("SalesOrdersProduct")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersProduct")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersQuantity")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersSaleValue")
+                                    </th>
+                                    <th class="text-center">
+                                        @L("SalesOrdersTotalValue")
+                                    </th>
+                                    <th class="text-center">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="orderProduct in $ctrl.order.orderProducts">
+                                    <td>
+                                        {{ orderProduct.productCode }}
+                                    </td>
+                                    <td>
+                                        <select-picker opciones="$ctrl.options.products"
+                                                       opcion-seleccionada="orderProduct.productId"
+                                                       texto-no-seleccion="@L("SalesOrdersProduct")"
+                                                       selecciono-opcion="$ctrl.productSelected(option, orderProduct)">
+                                        </select-picker>
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                               ng-model="orderProduct.quantity"
+                                               ng-class="{ 'edited' : orderProduct.quantity }"
+                                               class="form-control text-right"
+                                               id="iptQuantity"
+                                               name="iptQuantity"
+                                               ng-blur="orderProduct.totalValue = orderProduct.quantity * orderProduct.saleValue"
+                                               ng-disabled="!orderProduct.productId" />
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                               ng-model="orderProduct.saleValue"
+                                               ng-class="{ 'edited' : orderProduct.saleValue }"
+                                               class="form-control text-right"
+                                               id="iptSaleValue"
+                                               name="iptSaleValue"
+                                               ng-blur="orderProduct.totalValue = orderProduct.quantity * orderProduct.saleValue"
+                                               ng-disabled="!orderProduct.productId" />
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               ng-model="orderProduct.totalValue"
+                                               ng-class="{ 'edited' : orderProduct.totalValue }"
+                                               class="form-control text-right bold"
+                                               id="iptTotalValue"
+                                               name="iptTotalValue"
+                                               disabled="disabled" />
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="" ng-click="$ctrl.deleteOrderProduct(orderProduct.position)" class="btn btn-circle btn-icon-only btn-default red" uib-tooltip="@L("SalesOrdersDeleteProduct")" ng-show="orderProduct.position > 1">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-circle blue btn-md" ng-click="$ctrl.addOrderProduct()">
+                                    <i class="fa fa-plus"></i> @L("SalesOrdersNewProduct")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-top-10">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-circle red btn-lg" ng-click="$ctrl.cancelOrder()">
+                            <i class="fa fa-save"></i> @L("Cancel")
+                        </button>
+                        <button class="btn btn-circle green btn-lg" ng-click="$ctrl.saveOrder()">
+                            <i class="fa fa-save"></i> @L("Save")
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

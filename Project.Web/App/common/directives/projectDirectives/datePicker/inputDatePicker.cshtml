@@ -1,0 +1,15 @@
+﻿<form name="formInputDatePicker">
+    <input type="date"
+           id="{{elementoId}}"
+           name="inputDatePicker"
+           placeholder="yyyy-MM-dd"
+           ng-model="ngModel"
+           min="{{dateOptions.fechaMinima}}"
+           max="{{fechaMaximaActualizada}}"
+           ng-required="dateOptions.requerido"
+           ng-disabled="dateOptions.deshabilitado"
+           maxlength="10"
+           class="form-control"
+           ng-change="fechaCambiada()"
+           ng-blur="focusFecha()">
+</form>
